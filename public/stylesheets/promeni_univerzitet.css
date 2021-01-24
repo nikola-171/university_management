@@ -1,0 +1,15 @@
+#main{
+    width: 100%;
+    min-width: 300px;
+    max-width: 100vh;
+}
+
+#back_container{
+    position: relative;
+    top:5vh;
+}
+
+#error{
+    position: relative;
+    top:25vh;
+}

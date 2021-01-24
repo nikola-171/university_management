@@ -1,0 +1,200 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/upravljanje_studentima.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+  <a class="nav-link">
+    <form action="/admin_logout" method="POST">
+        <button type="submit" class="btn btn-dark">logout</button>
+    </form>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/admin/pocetna_strana">
+      <button type="button" class="btn btn-dark">nazad</button>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/admin/prikaz_studenata">
+    <button type="button" class="btn btn-dark">prikaz studenata</button>
+  </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="main">
+  <hr>
+  <h4 class="h4"><i>Registracija studenta</i></h4>
+  {% if error is defined %}
+  <div class="alert alert-danger"><h4 class="h4"><i>{{error}}</i></h4></div>
+  {% endif %}
+  {% if success is defined %}
+  <div class="alert alert-success"><h4 class="h4"><i>{{success}}</i></h4></div>
+  {% endif %}
+  <form action="/dodaj_novog_studenta" method="POST" class="needs-validation" novalidate>
+    <div class="row">
+
+      <div class="col-md-4">
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ime">ime</label>
+              <input type="text" name="ime" autocomplete="off" class="form-control" required>
+              <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="prezime">prezime</label>
+              <input type="text" name="prezime" autocomplete="off" class="form-control" required>
+              <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+            </div>
+          </div>
+        </div>
+
+       
+
+        <div class="row">
+          <div class="col">
+            <p>datum rođenja <i>(godina, mesec, dan):</i></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <input type="number" name="godina" autocomplete="off" class="form-control" min="1960" max="2000" required>
+              <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <input type="number" name="mesec" autocomplete="off" class="form-control" min="1" max="12" required>
+              <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <input type="number" name="dan" autocomplete="off" class="form-control" min="1" max="31" required>
+              <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="form-group">
+          <label for="place_of_living">mesto boravka</label>
+          <input type="text" class="form-control" autocomplete="off" name="mesto_boravka" required>
+          <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="ulica">ulica</label>
+              <input type="text" class="form-control" autocomplete="off" name="ulica" required>
+              <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="broj">broj</label>
+              <input type="text" class="form-control" autocomplete="off" name="broj" required>
+              <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+
+      <div class="col-md-4">
+        
+        <div class="form-group">
+          <label for="korisnicko_ime">korisničko ime</label>
+          <input type="text" class="form-control" autocomplete="off" name="korisnicko_ime" required>
+          <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+
+        
+        <div class="form-group">
+          <label for="lozinka">lozinka</label>
+          <input type="password" class="form-control" autocomplete="off" name="lozinka" required>
+          <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+
+        <div class="form-group">
+          <label for="lozinka_ponovo">ponovite lozinku</label>
+          <input type="password" class="form-control" autocomplete="off" name="lozinka_ponovo" required>
+          <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="departman">departman</label>
+          <select class="form-control" name="departman" required>
+            {% for departman in departmani %}
+            <option value="{{departman.id}}">({{departman.nivo_studija}}) - {{departman.naziv}}</option>
+            {% endfor %}
+          </select>
+          <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+      
+        <div class="form-group">
+          <label for="status">status</label>
+          <select name="status" class="form-control" required>
+            <option value="1">budžet</option>
+            <option value="0">samofinansiranje</option>
+          </select>
+          <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+
+        <div class="form-group">
+          <label for="email">email</label>
+          <input type="text" class="form-control" autocomplete="off" name="email" required>
+          <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+
+        <div class="form-group">
+          <label for="telefon">telefon</label>
+          <input type="text" class="form-control" autocomplete="off" name="telefon" required>
+          <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+       
+      </div>
+    </div>
+    <div class="container text-center">
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">prosledi</button>
+      </div>
+    </div>
+  </form>
+  <hr>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

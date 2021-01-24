@@ -1,0 +1,134 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/upravljanje_fakultetima.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+  <a class="nav-link">
+    <form action="/admin_logout" method="POST">
+        <button type="submit" class="btn btn-dark">logout</button>
+    </form>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/admin/pocetna_strana">
+      <button type="button" class="btn btn-dark">back</button>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/admin/prikaz_fakulteta">
+    <button type="button" class="btn btn-dark">promeni/izbriši fakultet</button>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/admin/dodaj_departman">
+    <button type="button" class="btn btn-dark">dodaj departman fakultetu</button>
+  </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="main">
+  <hr>
+  <div class="row">
+      <div class="col-md-6">
+          <div class="container">
+              <h3 class="h3"><i>Dodaj novi fakultet</i></h3>
+
+              <!--postoji neka greška-->
+
+              {% if error is defined %}
+              <div class="alert alert-danger"><h4 class="h4"><i>{{error}}</i></h4></div>
+              {% endif %}
+
+              <!--postoji neko prazno polje-->
+              {% if empty_error is defined %}
+              <div class="alert alert-danger"><h4 class="h4"><i>{{empty_error}}</i></h4></div>
+              {% endif %}
+
+              <!--uspešno registrovano-->
+
+              {% if success is defined %}
+              <div class="alert alert-success"><h4 class="h4"><i>{{success}}</i></h4></div>
+              {% endif %}
+
+              <!--ukoliko postoji data - tj ukoliko postoji neki univerzitet
+                  onda osposobi formu za unos, u suprotnom zabrani unos.  -->
+
+              <form action="/dodaj_novi_fakultet" method="POST" class="needs-validation" novalidate>
+                {% if data is defined %}
+                <div class="form-group">
+                  <label for="univerzitet">univerzitet</label>
+                  <select name="univerzitet" class="form-control" required>
+                    {% for university in data %}
+                      <option value="{{university.id}}">{{university.naziv}}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                </div>
+                {% endif %}
+                  <div class="form-group">
+                      <label for="universitnaziv_fakultetay_name">Naziv fakulteta</label>
+                      <input type="text" name="naziv_fakulteta" 
+                              {% if error is defined %}
+                              disabled
+                              {% endif %}
+                             class="form-control" autocomplete="off" required>
+                      <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                  </div>
+                  <div class="form-group">
+                      <label for="grad">Grad</label>
+                      <input type="text" name="grad"
+                            {% if error is defined %}
+                            disabled
+                            {% endif %}
+                             class="form-control" autocomplete="off" required>
+                       <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                  </div>
+                  <div class="form-group">
+                     <button type="submit" 
+                              {% if error is defined %}
+                              disabled
+                              {% endif %}
+                              class="btn btn-primary">prosledi</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+     
+      <div class="col-md-6">
+        <div class="conatiner text-center">
+          <img alt="university_image" id="slika" src="../images/university.png">
+        </div>
+      </div>
+
+  </div>
+</div>
+<br>
+<br>
+<div class="container">
+  <table class="table table-striped" id="tabela">
+    <thead>
+      <tr>
+        <th><h4 class="h4"><i>registrovani fakulteti</i></h4></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for fakultet in fakulteti %}
+        <tr>
+          <td><p>{{fakultet.univerzitet}} - {{fakultet.naziv}} - {{fakultet.mesto}}</p></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

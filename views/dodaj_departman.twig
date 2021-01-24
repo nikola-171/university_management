@@ -1,0 +1,150 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/dodaj_departman.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+    <a class="nav-link">
+      <form action="/admin_logout" method="POST">
+          <button type="submit" class="btn btn-dark">logout</button>
+      </form>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/upravljanje_fakultetima">
+        <button type="button" class="btn btn-dark">nazad</button>
+    </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="form">
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            {% if error is defined %}
+            <div class="alert alert-danger"><h4 class="h4"><i>{{error}}</i></h4></div>
+            {% endif %}
+            {% if success is defined %}
+            <div class="alert alert-success"><h4 class="h4"><i>{{success}}</i></h4></div>
+             {% endif %}
+                
+                <form action="/dodaj_novi_departman_fakultetu" method="POST" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label for="fakultet">izaberite fakultet</label>
+                        <select name="fakultet" class="form-control" required>
+                            {% for fakultet in fakulteti %}
+                            <option value="{{fakultet.id}}">{{fakultet.naziv}}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="nivo_studija">nivo studija</label>
+                        <select name="nivo_studija" class="form-control" required>
+                            <option>osnovne akademske studije</option>
+                            <option>master akademske studije</option>
+                            <option>doktorske akademske studije</option>
+                        </select>
+                        <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                    </div>
+                    <div class="form-group">
+                        <label>naziv departmana</label>
+                        <input type="text" name="naziv_departmana" autocomplete="off" class="form-control" required>
+                        <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>espb</label>
+                                <input type="number" name="espb" autocomplete="off" class="form-control" required>
+                                <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>trajanje</label>
+                                <input type="number" name="trajanje" autocomplete="off" class="form-control" required>
+                                <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">prosledi</button>
+                    </div>
+                </form>
+        </div>
+
+        <div class="col-md-6">
+            <div class="conatiner text-center">
+                <img alt="university_image" id="image" src="../images/university.png">
+              </div>
+        </div>
+
+    </div>
+    <hr>
+</div>
+<div class="container">
+    {% if mobilni is defined %}
+    <div class="container">
+        <h4 class="h4"><i>departmani</i></h4>
+        <hr>
+        {% for item in data %}
+        <p>univerzitet: {{item.univerzitet}}</p>
+        <p>fakultet: {{item.fakultet}}</p>
+        <p>departman: {{item.smer}}</p>
+        <p>nivo studija: {{item.nivo_studija}}</p>
+        <p>
+            <form action="/izbrisi_departman" method="POST">
+                <input type="hidden" name="departman_id" value="{{item.id}}">
+                <button type="submit" class="btn btn-primary">izbriši</button>
+            </form>
+        </p>
+
+        {% endfor %}
+        <hr>
+    </div>
+    {% else %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><i>univerzitet</i></th>
+                <th><i>fakultet</i></th>
+                <th><i>departman</i></th>
+                <th><i>nivo studija</i></th>
+                <th><i>akcija</i></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td><p>{{item.univerzitet}}</p></td>
+                <td><p>{{item.fakultet}}</p></td>
+                <td><p>{{item.smer}}</p></td>
+                <td><p>{{item.nivo_studija}}</p></td>
+                <td>
+                    <form action="/izbrisi_departman" method="POST">
+                        <input type="hidden" name="departman_id" value="{{item.id}}">
+                        <button type="submit" class="btn btn-primary">izbriši</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    
+</div>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

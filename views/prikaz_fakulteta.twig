@@ -1,0 +1,65 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/prikaz_fakulteta.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+  <a class="nav-link">
+    <form action="/admin_logout" method="POST">
+        <button type="submit" class="btn btn-dark">logout</button>
+    </form>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/admin/upravljanje_fakultetima">
+      <button type="button" class="btn btn-dark">nazad</button>
+  </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+    {% if data.length > 0 %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>naziv</th>
+                <th>grad</th>
+                <th>univerzitet</th>
+                <th>akcija</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fakultet in data %}
+            <tr>
+                <td>{{fakultet.naziv}}</td>
+                <td>{{fakultet.mesto}}</td>
+                <td>{{fakultet.univerzitet}}</td>
+                <td>
+                  <div class="btn btn-group">
+                    <button type="button" id="edit" value="{{fakultet.id}}" class="btn btn-primary" onclick="redirect(this);">izmeni</button>
+                    <form action="/izbrisi_fakultet" method="POST">
+                      <input type="hidden" id="fakultet_id" name="fakultet_id" value="{{fakultet.id}}">
+                      <button type="submit" class="btn btn-primary">izbriši</button>
+                    </form>
+                  </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info text-center" id="message">
+      <i><h3 class="h3">trenutno ne postoje registrovani fakulteti</h3></i>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="../javascripts/prikaz_fakulteta.js"></script>
+{% endblock %}

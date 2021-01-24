@@ -1,0 +1,119 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+  <a class="nav-link">
+    <form action="/admin_logout" method="POST">
+        <button type="submit" class="btn btn-dark">logout</button>
+    </form>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/admin/upravljanje_studentima">
+      <button type="button" class="btn btn-dark">nazad</button>
+  </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    {% if studenti.length > 0 %}
+
+        {% if mobilni is defined %}
+        <h4 class="h4"><i>studenti:</i></h4>
+          {% for student in studenti %}
+          <div class="container">
+            <hr>
+            <p>broj indeksa: {{student.broj_indeksa}}</p>
+            <p>ime: {{student.ime}}</p>
+            <p>prezime: {{student.prezime}}</p>
+            <p>smer: {{student.naziv}}</p>
+            <p>fakultet: {{student.fakultet}}</p>
+            <p>diplomirao: 
+              {% if student.diplomirao == 1 %}
+                da
+              {% else %}
+                ne
+              {% endif %}
+            </p>
+            <p>status: {% if student.status == 1 %} budžet {% else %} samofinansiranje {% endif %}</p>
+                  
+            <p>espb: {{student.espb}}</p>
+            <p>prosek: {{student.prosek}}</p>
+
+            <p>
+              <form action="/izbrisi_studenta" method="POST">
+                  <input type="hidden" name="id" value="{{student.broj_indeksa}}">
+                  <button type="submit" class="btn btn-primary">izbriši</button>
+              </form>
+            </p>
+            <hr>
+          </div>
+          {% endfor %}
+        
+        {% else %}
+        <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th><h4 class="h4"><i>index</i></h4></th>
+                  <th><h4 class="h4"><i>ime</i></h4></th>
+                  <th><h4 class="h4"><i>prezime</i></h4></th>
+                  <th><h4 class="h4"><i>departman</i></h4></th>
+                  <th><h4 class="h4"><i>fakultet</i></h4></th>
+                  <th><h4 class="h4"><i>diplomirao</i></h4></th>
+                  <th><h4 class="h4"><i>finansiranje</i></h4></th>
+                  <th><h4 class="h4"><i>espb</i></h4></th>
+                  <th><h4 class="h4"><i>prosek</i></h4></th>
+                  <th><h4 class="h4"><i>akcija</i></h4></th>
+  
+              </tr>
+          </thead>
+          <tbody>
+              {% for student in studenti %}
+              <tr>
+                  <td><p>{{student.broj_indeksa}}</p></td>
+                  <td><p>{{student.ime}}</p></td>
+                  <td><p>{{student.prezime}}</p></td>
+                  <td><p>{{student.naziv}}</p></td>
+                  <td><p>{{student.fakultet}}</p></td>
+                  <td><p>
+                    {% if student.diplomirao == 1 %}
+                      da
+                    {% else %}
+                      ne
+                    {% endif %}
+                  </p></td>
+  
+                  <td><p>{% if student.status_studenta == 1 %} budžet {% else %} samofinansiranje {% endif %}</p></td>
+                  
+                  <td><p>{{student.espb}}</p></td>
+                  <td><p>{{student.prosek}}</p></td>
+                  <td>
+                    <form action="/izbrisi_studenta" method="POST">
+                      <input type="hidden" name="id" value="{{student.broj_indeksa}}">
+                      <button type="submit" class="btn btn-primary">izbriši</button>
+                    </form>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+  
+      </table>
+        {% endif %}
+   
+    {% else %}
+    <div class="container text-center mt-5">
+      <div class="alert alert-info">
+        <h3 class="h3"><i>trenutno ne postoje registrovani studenti</i></h3>
+      </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

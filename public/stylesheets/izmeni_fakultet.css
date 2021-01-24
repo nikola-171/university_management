@@ -1,0 +1,9 @@
+#form_container{
+    position: relative;
+    top:15vh;
+}
+
+#form{
+    width: 50vh;
+    min-width: 300px;
+}

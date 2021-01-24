@@ -1,0 +1,89 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/prikaz_univerziteta.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+  <a class="nav-link">
+    <form action="/admin_logout" method="POST">
+        <button type="submit" class="btn btn-dark">logout</button>
+    </form>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/admin/upravljanje_univerzitetima">
+      <button type="button" class="btn btn-dark">nazad</button>
+  </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    {% if universities.length <= 0 %}
+    <div class="alert alert-info text-center" id="empty">
+      <h3><i>trenutno ne postoje registrovani univerziteti</i></h3>
+    </div>
+    {% else %}
+
+        {% if mobilni is defined %}
+            {% for uni in universities %}
+            <div class="container">
+              <hr>
+                <p>naziv: {{uni.naziv}}</p>
+                <p>država: {{uni.drzava}}</p>
+                <p>grad: {{uni.grad}}</p>
+                <p>
+                  <div class="btn btn-group">
+                    <button type="button" id="edit" value="{{uni.id}}" class="btn btn-primary" onclick="redirect(this);">promeni</button>
+                    <form action="/izbrisi_univerzitet" method="POST">
+                        <input type="hidden" id="univerzitet_id" name="univerzitet_id" value="{{uni.id}}">
+                        <button type="submit" class="btn btn-primary">izbriši</button>
+                    </form>
+                </div>
+                </p>
+              <hr>
+            </div>
+            {% endfor %}
+        {% else %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th><i>naziv</i></th>
+              <th><i>država</i></th>
+              <th><i>grad</i></th>
+              <th><i>akcija</i></th>
+  
+            </tr>
+          </thead>
+          <tbody>
+              
+              {% for uni in universities %}
+              <tr>
+                  <td>{{uni.naziv}}</td>
+                  <td>{{uni.drzava}}</td>
+                  <td>{{uni.grad}}</td>
+                  <td>
+                      <div class="btn btn-group">
+                          <button type="button" id="edit" value="{{uni.id}}" class="btn btn-primary" onclick="redirect(this);">promeni</button>
+                          <form action="/izbrisi_univerzitet" method="POST">
+                              <input type="hidden" id="univerzitet_id" name="univerzitet_id" value="{{uni.id}}">
+                              <button type="submit" class="btn btn-primary">izbriši</button>
+                          </form>
+                      </div>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+    
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="../javascripts/prikaz_univerziteta.js"></script>
+{% endblock %}

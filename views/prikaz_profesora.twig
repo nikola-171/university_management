@@ -1,0 +1,89 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+    <a class="nav-link">
+      <form action="/admin_logout" method="POST">
+          <button type="submit" class="btn btn-dark">logout</button>
+      </form>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/upravljanje_profesorima">
+        <button type="button" class="btn btn-dark">nazad</button>
+    </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" >
+    {% if profesori.length > 0 %}
+
+        {% if mobilni is defined %}
+            <h4 class="h4">profesori:</h4>
+            {% for profesor in profesori %}
+            <div class="container">
+                <hr>
+                <p>id: {{profesor.id}}</p>
+                <p>ime: {{profesor.ime}}</p>
+                <p>prezime: {{profesor.prezime}}</p>
+                <p>email: {{profesor.email}}</p>
+                <p>telefon: {{profesor.telefon}}</p>
+                <p>
+                    <form action="/izbrisi_profesora" method="POST">
+                        <input name="id" type="hidden" value="{{profesor.id}}">
+                        <button type="submit" class="btn btn-primary">izbriši</button>
+                    </form>
+                </p>
+                <hr>
+            </div>
+            {% endfor %}
+        
+        {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><h4 class="h4"><i>id</i></h4></th>
+                    <th><h4 class="h4"><i>ime</i></h4></th>
+                    <th><h4 class="h4"><i>prezime</i></h4></th>
+                    <th><h4 class="h4"><i>email</i></h4></th>
+                    <th><h4 class="h4"><i>telefon</i></h4></th>
+                    <th><h4 class="h4"><i>akcija</i></h4></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profesor in profesori %}
+                <tr>
+                    <td><p>{{profesor.id}}</p></td>
+                    <td><p>{{profesor.ime}}</p></td>
+                    <td><p>{{profesor.prezime}}</p></td>
+                    <td><p>{{profesor.email}}</p></td>
+                    <td><p>{{profesor.telefon}}</p></td>
+                    <td>
+                        <form action="/izbrisi_profesora" method="POST">
+                            <input name="id" type="hidden" value="{{profesor.id}}">
+                            <button type="submit" class="btn btn-primary">izbriši</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    
+    {% else %}
+    <div class="container text-center mt-5">
+        <div class="alert alert-info">
+            <h3 class="h3"><i>trenutno ne postoje registrovani profesori</i></h3>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/student_polozio_predmet.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+    <a class="nav-link">
+      <form action="/admin_logout" method="POST">
+          <button type="submit" class="btn btn-dark">logout</button>
+      </form>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/upravljanje_predmetima">
+        <button type="button" class="btn btn-dark">nazad</button>
+    </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="main">
+    <hr>
+    <h3 class="h3"><i>student položio predmet</i></h3>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="/dodaj_novog_studenta_polozio_predmet" method="POST" class="needs-validation" novalidate>
+                <div class="form-group">
+                    <label for="student">student</label>
+                    <select class="form-control" name="student" required>
+                        {% for item in data %}
+                        <option value="{{item.broj_indeksa}}">index({{item.broj_indeksa}}) {{item.ime}} {{item.prezime}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                </div>
+                
+                <div class="form-group">
+                    <label for="predmet">predmet</label>
+                    <select class="form-control" name="predmet" required>
+                        {% for item in predmeti %}
+                        <option value="{{item.id}}">id({{item.id}})-{{item.naziv}}-espb- {{item.espb}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ocena">ocena</label>
+                            <select class="form-control" name="ocena" required>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="datum">datum</label>
+                            <input type="date" name="datum" autocomplete="off" class="form-control" required>
+                            <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">prosledi</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="conatiner text-center">
+                <img alt="university_image" id="image" src="../images/passed.png">
+              </div>
+        </div>
+    </div>
+    <hr>
+</div>
+<div class="container">
+    <h4 class="h4">student položio predmet</h4>
+    {% if mobilni is defined %}
+        {% for item in studenti %}
+        <div class="container">
+            <hr>
+            <p>broj indeksa: {{item.broj_indeksa}}</p>
+            <p>ime: {{item.ime}}</p>
+            <p>prezime: {{item.prezime}}</p>
+            <p>predmet: {{item.predmet_naziv}}</p>
+            <p>ocena: {{item.ocena}}</p>
+            <p>datum: {{item.datum[:15]}}</p>
+            <p>fakultetska godina: {{item.fakultetska_godina}}</p>
+            <p>
+                <form action="/izbrisi_polozen_predmet_studentu" method="POST">
+                    <input type="hidden" name="student" value="{{item.broj_indeksa}}">
+                    <input type="hidden" name="predmet" value="{{item.predmet_id}}">
+                    <button type="submit" class="btn btn-primary">obriši</button>
+                </form>
+            </p>
+            <hr>
+        </div>
+        {% endfor %}
+    {% else %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><i>indeks</i></th>
+                <th><i>ime</i></th>
+                <th><i>prezime</i></th>
+                <th><i>predmet</i></th>
+                <th><i>ocena</i></th>
+                <th><i>datum</i></th>
+                <th><i>fakultetska godina</i></th>
+                <th><i>akcija</i></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in studenti %}
+            <tr>
+                <td><p>{{item.broj_indeksa}}</p></td>
+                <td><p>{{item.ime}}</p></td>
+                <td><p>{{item.prezime}}</p></td>
+                <td><p>{{item.predmet_naziv}}</p></td>
+                <td><p>{{item.ocena}}</p></td>
+                <td><p>{{item.datum[:15]}}</p></td>
+                <td><p>{{item.fakultetska_godina}}</p></td>
+                <td><p>
+                    <form action="/izbrisi_polozen_predmet_studentu" method="POST">
+                        <input type="hidden" name="student" value="{{item.broj_indeksa}}">
+                        <input type="hidden" name="predmet" value="{{item.predmet_id}}">
+                        <button type="submit" class="btn btn-primary">obriši</button>
+                    </form>
+                </p></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/izmeni_fakultet.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+    <a class="nav-link">
+      <form action="/admin_logout" method="POST">
+          <button type="submit" class="btn btn-dark">logout</button>
+      </form>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/prikaz_fakulteta">
+        <button type="button" class="btn btn-dark">nazad</button>
+    </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="form_container">
+    {% if error is defined %}
+    <div class="alert alert-info">
+        <i><h3 class="h3">{{error}}</h3></i>
+    </div> 
+    {% else %}
+
+        {% if empty is defined %}
+            <div class="alert alert-info">
+                <i><h3 class="h3">{{empty}}</h3></i>
+            </div> 
+        {% else %}
+
+        <div class="jumbotron">
+            <div class="container" id="form">
+                <!--ukoliko smo prosledili neko prazno polje-->
+
+                {% if empty_fields is defined %}
+                <div class="alert alert-info">
+                    <i><h3 class="h3">{{empty_fields}}</h3></i>
+                </div> 
+                {% endif %}
+
+                {% if success is defined %}
+                <div class="alert alert-info">
+                    <i><h3 class="h3">{{success}}</h3></i>
+                </div> 
+                {% endif %}
+                <form action="/sacuvaj_izmene_na_fakultetu" method="POST" class="needs-validation" novalidate>
+                    <input type="hidden" name="fakultet_id" value="{{fakultet.id}}">
+                    <div class="form-group">
+                        <label for="fakultet_naziv">naziv</label>
+                        <input type="text" 
+                               name="fakultet_naziv" 
+                               value="{{fakultet.naziv}}"
+                               class="form-control" autocomplete="off" required>
+                        <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="fakultet_grad">grad</label>
+                        <input type="text" 
+                               name="fakultet_grad" 
+                               value="{{fakultet.mesto}}"
+                               class="form-control" autocomplete="off" required>
+                        <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                    </div>
+                    <div class="form-group">
+                        <button type="submit"
+                                class="btn btn-primary">promeni</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

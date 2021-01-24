@@ -1,0 +1,74 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/administrator_registracija.css">
+{% endblock %}
+
+{% block body %}
+<div class="container text-center" id="registracija">
+    <div class="jumbotron">
+        <h3>Administrator registracija</h3>
+        {% if error is defined %}
+        <div class="alert alert-danger"><h4 class="h4"><i>{{error}}</i></h4></div>
+        {% endif %}
+        {% if exists is defined %}
+        <div class="alert alert-danger"><h4 class="h4"><i>{{exists}}</i></h4></div>
+        {% endif %}
+        {% if success is defined%}
+        <div class="alert alert-success"><h4 class="h4"><i>{{success}}</i></h4></div>
+        {% endif %}
+        <div class="container">
+            <form action="/registruj_administratora" method="POST" class="needs-validation" novalidate>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="administrator_ime">administrator ime</label>
+                                <input type="text" name="administrator_ime" autocomplete="off" class="form-control" {% if exists is defined %}disabled{% endif %} required>
+                                <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="email">email</label>
+                                <input type="text" name="email" autocomplete="off" class="form-control" {% if exists is defined %}disabled{% endif %} required>
+                                <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">telefon</label>
+                                <input type="text" name="telefon" autocomplete="off" class="form-control" {% if exists is defined %}disabled{% endif %} required>
+                                <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="administrator_password">administrator lozinka</label>
+                                <input type="password" name="administrator_lozinka" autocomplete="off" class="form-control" {% if exists is defined %}disabled{% endif %} required>
+                                <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="administrator_password_repeat">ponovite lozinku</label>
+                                <input type="password" name="administrator_lozinka_ponovo" autocomplete="off" class="form-control" {% if exists is defined %}disabled{% endif %} required>
+                                <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary" {% if exists is defined %}disabled{% endif %}>prosledi</button>
+                            <button type="button" class="btn btn-primary" id="login">logovanje</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="../javascripts/administrator_registracija.js"></script>
+{% endblock %}

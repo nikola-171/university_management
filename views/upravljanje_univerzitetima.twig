@@ -1,0 +1,76 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/upravljanje_univerzitetima.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+    <a class="nav-link">
+      <form action="/admin_logout" method="POST">
+          <button type="submit" class="btn btn-dark">logout</button>
+      </form>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/pocetna_strana">
+        <button type="button" class="btn btn-dark">nazad</button>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/prikaz_univerziteta">
+        <button type="button" class="btn btn-dark">prikaz/izmena registrovanih univerziteta</button>
+    </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="main">
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="container">
+                <h3 class="h3"><i>Dodaj novi univerzitet</i></h3>
+                {% if university_error is defined %}
+                <div class="alert alert-danger"><h4 class="h4"><i>{{university_error}}</i></h4></div>
+                {% endif %}
+                {% if university_success is defined %}
+                <div class="alert alert-success"><h4 class="h4"><i>{{university_success}}</i></h4></div>
+                {% endif %}
+                <form action="/dodaj_novi_univerzitet" class="needs-validation" method="POST" novalidate>
+                    <div class="form-group">
+                        <label for="univerzitet_ime">Naziv univerziteta</label>
+                        <input type="text" name="univerzitet_ime" autocomplete="off" class="form-control" autocomplete="off" required>
+                        <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="grad">Grad</label>
+                        <input type="text" name="grad" autocomplete="off" class="form-control" autocomplete="off" required>
+                        <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="zemlja">Zemlja</label>
+                        <input type="text" name="zemlja" autocomplete="off" class="form-control" autocomplete="off" required>
+                        <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                    </div>
+                    <div class="form-group">
+                       <button type="submit" class="btn btn-primary">prosledi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+          
+        <div class="col-md-6">
+            <div class="conatiner text-center">
+                <img alt="university_image" id="image" src="../images/university.png">
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/promeni_univerzitet.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+    <a class="nav-link">
+      <form action="/admin_logout" method="POST">
+          <button type="submit" class="btn btn-dark">logout</button>
+      </form>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/prikaz_univerziteta">
+        <button type="button" class="btn btn-dark">nazad</button>
+    </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="main">
+    {% if error is defined %}
+    <div class="container text-center" id="error">
+        <div class="alert alert-info">
+            <h3><i>{{error}}</i></h3>
+        </div>
+    </div>
+    {% else %}
+    <div class="jumbotron" id="back_container">
+        <div class="container text-center" id="form">
+            {% if message is defined %}
+            <div class="alert alert-info">
+                <h4 class="h4"><i>{{message}}</i></h4>
+            </div>
+            {% endif %}
+            <form action="/izmeni_univerzitet" method="POST" class="needs-validation" novalidate>
+                <input type="hidden" name="id"
+                            value = "{{data.id}}">
+
+                <div class="form-group">
+                    <label>naziv</label>
+                    <input type="text" name="naziv"
+                           class="form-control" 
+                            value = "{{data.naziv}}" autocomplete="off" required>
+                    <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                </div>
+                <div class="form-group">
+                    <label>drzava</label>
+                    <input type="text" name="drzava"
+                          class="form-control"
+                          value = "{{data.drzava}}" autocomplete="off" required>
+                    <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                           
+                </div>
+                <div class="form-group">
+                    <label>grad</label>
+                    <input type="text" name="grad"
+                           class="form-control"
+                            value="{{data.grad}}" autocomplete="off" required>
+                    <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                           
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">promeni</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

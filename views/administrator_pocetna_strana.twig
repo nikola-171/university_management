@@ -1,0 +1,78 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/admin_pocetna_strana.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+  <a class="nav-link">
+    <form action="/admin_logout" method="POST">
+        <button type="submit" class="btn btn-dark">logout</button>
+    </form>
+  </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container" id="main">
+  <hr>
+    <div class="row">
+        <div class="col-md-4" id="meni">
+
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">{{admin.administrator_ime}}</h4>
+              <p class="card-text"><i>email: {{admin.email}}</i></p>
+              <p class="card-text"><i>telefon: {{admin.telefon}}</i></p>
+            </div>
+          </div>
+          <img class="card-img-top" id="slika" src="../images/admin.png" alt="admin_slika">
+          
+        </div>
+        <div class="col-md-4">
+          <h3 class="h3">Upravljanje:</h3>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a href="/admin/upravljanje_univerzitetima">univerziteti</a><p>dodaj/izbriši ili izmeni univerzitete </p></li>
+                <li class="list-group-item"><a href="/admin/upravljanje_fakultetima">fakulteti</a><p>dodaj/izbriši fakultete, upravljanje departmanima</p></li>
+                <li class="list-group-item"><a href="/admin/upravljanje_studentima">studenti</a><p>upravljanje studentima</p></li>
+                <li class="list-group-item"><a href="/admin/upravljanje_profesorima">profesori</a><p>upravljanje profesorima</p></li>
+                <li class="list-group-item"><a href="/admin/upravljanje_predmetima">predmeti</a><p>upravljanje predmetima</p></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+          <div class="container">
+            <h4 class="h4">Dodavanje nove fakultetske godine</h4>
+            <p>
+              prilikom dodavanja nove fakultetske godine izvršiće se presek studenata za prethodnu godinu, 
+               i na osnovu stečenih <i>espb</i> bodova će se utvrditi da li će student biti na budžetu u novoj fakultetskoj godini
+            </p>
+               <form action="/azuriraj_status_studenata" method="POST" class="needs-validation" novalidate>
+                <p>fakultetska godina:</p>
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <input type="text" name="fakultetska_godina" class="form-control" autocomplete="off" required>
+                        <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary">prosledi</button>
+                      </div>
+                    </div>
+                  </div>
+               </form>
+               <hr>
+          </div>
+        </div>
+    </div>
+    <hr>
+</div>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

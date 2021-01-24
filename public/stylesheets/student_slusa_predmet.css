@@ -1,0 +1,14 @@
+#image{
+    position: relative;
+    top:2vh;
+    bottom:5vh;
+    width:250px;
+    height:250px;    
+}
+#main{
+    position: relative;
+    top:2vh;
+    bottom: 5vh;
+    margin-bottom: 6vh;
+}
+

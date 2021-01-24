@@ -1,0 +1,138 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/dodaj_profesora_predmetu.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+  <a class="nav-link">
+    <form action="/admin_logout" method="POST">
+        <button type="submit" class="btn btn-dark">logout</button>
+    </form>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/admin/upravljanje_predmetima">
+      <button type="button" class="btn btn-dark">nazad</button>
+  </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="main">
+  <hr>
+  <h3 class="h3"><i>dodaj profesora predmetu</i></h3>
+  <div class="row">
+    <div class="col-md-6">
+      <form action="/dodaj_novog_profesora_predmetu" method="POST" class="needs-validation" novalidate>
+        <div class="form-group">
+            <label for="profesor">profesor</label>
+            <select name="profesor" class="form-control" required>
+                {% for profesor in profesori %}
+                <option value="{{profesor.id}}">{{profesor.ime}}</option>
+                {% endfor %}
+            </select>
+            <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+        <div class="form-group">
+            <label for="predmet">predmet</label>
+            <select name="predmet" class="form-control" required>
+                {% for predmet in predmeti %}
+                <option value="{{predmet.id}}">{{predmet.naziv}}</option>
+                {% endfor %}
+            </select>
+            <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+        <div class="form-group">
+          <label for="tip_profesora">tip radnog mesta</label>
+          <select name="tip_profesora" class="form-control" required>
+            <option value="1">asistent</option>
+            <option value="0">profesor</option>
+          </select>
+          <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">prosledi</button>
+        </div>
+    </form>
+    </div>
+
+    <div class="col-md-6">
+      <div class="conatiner text-center">
+        <img alt="university_image" id="image" src="../images/profesor2.png">
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container" id="list">
+  {% if mobilni is defined %}
+    {% for item in profesor_na_predmetu %}
+    <div class="container">
+      <hr>
+      <p>profesor id: {{item.profesor_id}}</p>
+      <p>ime: {{item.profesor_ime}}</p>
+      <p>prezime: {{item.profesor_prezime}}</p>
+      <p>predmet id: {{item.predmet_id}}</p>
+      <p>naziv predmeta: {{item.predmet_naziv}}</p>
+      <p>departman: {{item.smer_naziv}}</p>
+      <p>fakultet: {{item.fakultet_naziv}}</p>
+      <p>
+        <form action="/izbrisi_profesora_sa_predmeta" method="POST">
+          <input type="hidden" name="profesor" value="{{item.profesor_id}}">
+          <input type="hidden" name="predmet" value="{{item.predmet_id}}">
+          <button type="submit" class="btn btn-primary">izbrisi</button>
+      </form>
+      </p>
+      <hr>
+    </div>
+    {% endfor %}
+
+  {% else %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><i>profesor id</i></th>
+        <th><i>ime</i></th>
+        <th><i>prezime</i></th>
+        <th><i>predmet id</i></th>
+        <th><i>naziv predmeta</i></th>
+        <th><i>departman</i></th>
+        <th><i>fakultet</i></th>
+        <th><i>akcija</i></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in profesor_na_predmetu %}
+      <tr>
+        <td>{{item.profesor_id}}</td>
+        <td>{{item.profesor_ime}}</td>
+        <td>{{item.profesor_prezime}}</td>
+        <td>{{item.predmet_id}}</td>
+        <td>{{item.predmet_naziv}}</td>
+        <td>{{item.smer_naziv}}</td>
+        <td>{{item.fakultet_naziv}}</td>
+        <td>
+          <form action="/izbrisi_profesora_sa_predmeta" method="POST">
+              <input type="hidden" name="profesor" value="{{item.profesor_id}}">
+              <input type="hidden" name="predmet" value="{{item.predmet_id}}">
+              <button type="submit" class="btn btn-primary">izbrisi</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+  {% endif %}
+  
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -1,0 +1,153 @@
+
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/upravljanje_predmetima.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+    <a class="nav-link">
+      <form action="/admin_logout" method="POST">
+          <button type="submit" class="btn btn-dark">logout</button>
+      </form>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/pocetna_strana">
+        <button type="button" class="btn btn-dark">nazad</button>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/dodaj_predmet_departmanu">
+        <button type="button" class="btn btn-dark">dodaj predmet departmanu</button>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/dodaj_profesora_predmetu">
+        <button type="button" class="btn btn-dark">dodaj profesora predmetu</button>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/student_slusa_predmet">
+        <button type="button" class="btn btn-dark">student sluša predmet</button>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/student_polozio_predmet">
+        <button type="button" class="btn btn-dark">student položio predmet</button>
+    </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="main">
+    <hr>
+    <h3 class="h3"><i>dodaj novi predmet</i></h3>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="/dodaj_novi_predmet" method="POST" class="needs-validation" novalidate>
+                <div class="form-group">
+                    <label for="naziv">naziv predmeta</label>
+                    <input type="text" name="naziv" autocomplete="off" class="form-control" required>
+                    <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="godina">godina</label>
+                            <input type="number" min="1" max="10" name="godina" autocomplete="off" class="form-control" required>
+                            <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="espb">espb</label>
+                            <input type="number" name="espb" class="form-control" autocomplete="off" min="1" max="13" required>
+                            <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="semestar">semestar</label>
+                            <input type="number" name="semestar" class="form-control" autocomplete="off" min="1" max="13" required>
+                            <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">prosledi</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="conatiner text-center">
+                <img alt="university_image" id="image" src="../images/university.png">
+              </div>
+        </div>
+    </div>
+    <hr>
+</div>
+<div class="container">
+    <h4 class="h4"><i>predmeti koji nisu dodeljeni nekom departmanu</i></h4>
+
+    {% if mobilni is defined %}
+        {% for predmet in predmeti %}
+        <div class="container">
+            <hr>
+            <p>ID: {{predmet.id}}</p>
+            <p>naziv predmeta: {{predmet.naziv}}</p>
+            <p>godina: {{predmet.godina}}</p>
+            <p>ESPB bodovi: {{predmet.espb}}</p>
+            <p> 
+                <form action="/izbrisi_predmet" method="POST">
+                    <input type="hidden" name="predmet" value="{{predmet.id}}">
+                    <button type="submit" class="btn btn-primary">izbriši</button>
+                </form>
+            </p>
+            <hr>
+        </div>
+        {% endfor %}
+    {% else %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><h5 class="h5"><i>ID</i></h5></th>
+                <th><h5 class="h5"><i>naziv predmeta</i></h5></th>
+                <th><h5 class="h5"><i>godina</i></h5></th>
+                <th><h5 class="h5"><i>espb bodovi</i></h5></th>
+                <th><h5 class="h5"><i>akcija</i></h5></th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for predmet in predmeti %}
+            <tr>
+                <td><p>{{predmet.id}}</p></td>
+                <td><p>{{predmet.naziv}}</p></td>
+                <td><p>{{predmet.godina}}</p></td>
+                <td><p>{{predmet.espb}}</p></td>
+                <td>
+                    <form action="/izbrisi_predmet" method="POST">
+                        <input type="hidden" name="predmet" value="{{predmet.id}}">
+                        <button type="submit" class="btn btn-primary">izbriši</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

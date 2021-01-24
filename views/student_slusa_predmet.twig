@@ -1,0 +1,128 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/student_slusa_predmet.css">
+{% endblock %}
+
+{% block link %}
+<li class="nav-item">
+    <a class="nav-link">
+      <form action="/admin_logout" method="POST">
+          <button type="submit" class="btn btn-dark">logout</button>
+      </form>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/admin/upravljanje_predmetima">
+        <button type="button" class="btn btn-dark">nazad</button>
+    </a>
+</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="container" id="main">
+    <hr>
+    <h3 class="h3"><i>student sluša predmet</i></h3>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="/dodaj_novog_studenta_na_predmetu" method="POST" class="needs-validation" novalidate>
+                <div class="form-group">
+                    <label for="student">student</label>
+                    <select name="student" class="form-control" required>
+                        {% for student in studenti %}
+                        <option value="{{student.broj_indeksa}}">index({{student.broj_indeksa}}) {{student.ime}} {{student.prezime}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                </div>
+                <div class="form-group">
+                    <label for="predmet">predmet</label>
+                    <select name="predmet" class="form-control" required>
+                        {% for predmet in predmeti %}
+                        <option value="{{predmet.id}}">{{predmet.naziv}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+
+                </div>
+               
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">prosledi</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <div class="conatiner text-center">
+                <img alt="university_image" id="image" src="../images/university.png">
+              </div>
+        </div>
+        <hr>
+        <hr>
+    </div>
+   <hr>
+</div>
+<div class="container">
+    <h4 class="h4"><i>student sluša predmet</i></h4>
+    {% if mobilni is defined %}
+        {% for item in data %}
+            <div class="container">
+                <hr>
+                <p>broj indeksa: {{item.indeks}}</p>
+                <p>student: {{item.ime}} {{item.prezime}}</p>
+                <p>predmet: {{item.predmet}}</p>
+                <p>departman: {{item.smer}}</p>
+                <p>fakultetska godina: {{item.fakultetska_godina}}</p>
+                <p>
+                    <form action="/izbrisi_studenta_sa_predmeta" method="POST">
+                        <input type="hidden" name="student" value="{{item.indeks}}">
+                        <input type="hidden" name="predmet" value="{{item.id}}">
+                        <button type="submit" class="btn btn-primary">izbriši</button>
+                   </form>
+                </p>
+                <hr>
+            </div>
+        {% endfor %}
+    {% else %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><h4 class="h4"><i>student</i></h4></th>
+                <th><h4 class="h4"><i>predmet</i></h4></th>
+                <th><h4 class="h4"><i>departman</i></h4></th>
+                <th><h4 class="h4"><i>fakultetska godina</i></h4></th>
+                <th><h4 class="h4"><i>akcija</i></h4></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>
+                    <p>
+                    index({{item.indeks}}) - {{item.ime}} {{item.prezime}}
+                   </p>
+               </td>
+               <td><p>{{item.predmet}}</p></td>
+               <td><p>{{item.smer}}</p></td>
+               <td><p>{{item.fakultetska_godina}}</p></td>
+               <td>
+                   <form action="/izbrisi_studenta_sa_predmeta" method="POST">
+                        <input type="hidden" name="student" value="{{item.indeks}}">
+                        <input type="hidden" name="predmet" value="{{item.id}}">
+                        <button type="submit" class="btn btn-primary">izbriši</button>
+                   </form>
+               </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+   
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

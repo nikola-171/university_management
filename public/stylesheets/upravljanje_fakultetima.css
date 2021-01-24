@@ -1,0 +1,15 @@
+#main{
+    position: relative;
+    top:4vh;
+}
+
+#slika{
+    position: relative;
+    top:5vh;
+    width:250px;
+    height:290px;
+}
+
+#tabela{
+    margin-top: 5vh;
+}

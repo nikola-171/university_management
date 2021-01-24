@@ -1,0 +1,52 @@
+{% extends 'layout.twig' %}
+
+{% block style %}
+<link rel="stylesheet" href="../stylesheets/administrator_login.css">
+{% endblock %}
+
+{% block body %}
+<div class="container text-center" id="logovanje">
+    <div class="jumbotron" >
+        <div class="container">
+            <h3>Administrator logovanje</h3>
+            {% if error is defined %}
+            <div class="alert alert-danger">
+                <h4 class="h4"><i>{{error}}</i></h4>
+            </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="container">
+                        <form action="/uloguj_administratora" method="POST" class="needs-validation" novalidate>
+                            <div class="form-group">
+                                <label for="administrator_ime">administrator ime</label>
+                                <input type="text" name="administrator_ime" class="form-control" autocomplete="off" required>
+                                <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lozinka">administrator lozinka</label>
+                                <input type="password" name="administrator_lozinka" class="form-control" autocomplete="off" required>
+                                <div class="invalid-feedback">prazna polja nisu dozvoljena</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-primary">uloguj se</button>
+                                    <buttin type="button" id="register" class="btn btn-primary">registruj se</buttin>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img src="../images/admin.png" alt="login_image">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="../javascripts/administrator_logovanje.js"></script>
+{% endblock %}
